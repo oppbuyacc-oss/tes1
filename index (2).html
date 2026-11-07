@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacoo Finds</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap');
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #030303;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #050505; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #71717a; }
+
+        .chrome-text {
+            background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 40%, #ffffff 70%, #52525b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .chrome-border {
+            border: 1px solid transparent;
+            background-image: linear-gradient(#09090b, #09090b), linear-gradient(135deg, #ffffff, #27272a, #ffffff, #18181b);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+
+        .chrome-card-hover {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .chrome-card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -10px rgba(255, 255, 255, 0.15);
+        }
+
+        .moncler-glass {
+            background: rgba(12, 12, 14, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .chrome-button {
+            background: linear-gradient(135deg, #ffffff 0%, #e4e4e7 50%, #d4d4d8 100%);
+            color: #000000;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+        .chrome-button:hover {
+            background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.35);
+        }
+
+        .tiktok-button {
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 30%, #ff0050 100%);
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+        .tiktok-button:hover {
+            opacity: 0.95;
+            transform: scale(1.03);
+            box-shadow: 0 0 20px rgba(255, 0, 80, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-black text-zinc-100 min-h-screen flex flex-col justify-between selection:bg-white selection:text-black">
+
+    <!-- Header Section -->
+    <header class="moncler-glass border-b border-zinc-800/80 sticky top-0 z-50 px-4 sm:px-8 py-4">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            
+            <div class="flex items-center gap-3.5">
+                <!-- Hacoo Logo Badge -->
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-white via-zinc-400 to-zinc-900 p-[1px] shadow-lg">
+                    <div class="w-full h-full bg-black rounded-[11px] flex items-center justify-center">
+                        <span class="text-white font-black text-sm tracking-tighter">H</span>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold tracking-widest chrome-text uppercase">HACOO <span class="text-zinc-400 font-light">FINDS</span></h1>
+                </div>
+            </div>
+
+            <!-- Global Actions & Search -->
+            <div class="flex items-center gap-3 w-full md:w-auto flex-wrap sm:flex-nowrap justify-end">
+                
+                <!-- TikTok Creators Button -->
+                <a href="https://www.tiktok.com/@hacoo.europe?_r=1&_t=ZG-9BDQNQZfV9F" target="_blank" 
+                   class="tiktok-button text-xs font-black px-3.5 py-2 rounded-xl flex items-center gap-2 shrink-0 uppercase tracking-wider shadow-lg">
+                    <i class="fa-brands fa-tiktok text-sm"></i>
+                    <span>Our Creators</span>
+                </a>
+
+                <!-- KI Bildsuch-Button -->
+                <button onclick="triggerImageUpload()" class="bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-xs font-bold px-3 py-2 rounded-xl flex items-center gap-2 shrink-0 uppercase tracking-wider text-zinc-300">
+                    <i class="fa-solid fa-camera text-xs"></i>
+                    <span class="hidden sm:inline">KI-Bildsuche</span>
+                </button>
+                <input type="file" id="aiImageInput" accept="image/*" class="hidden" onchange="handleAIImageScan(event)">
+
+                <div class="relative w-full sm:w-64 md:w-72">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 text-sm"></i>
+                    <input type="text" id="searchInput" placeholder="Marke, Name oder Kategorie..." 
+                        class="w-full bg-zinc-950/80 border border-zinc-800/80 rounded-xl pl-10 pr-4 py-2 text-sm text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-zinc-400 transition">
+                </div>
+
+                <button onclick="openModal()" class="chrome-button text-xs font-extrabold px-3.5 py-2 rounded-xl flex items-center gap-1.5 shrink-0 uppercase tracking-wider">
+                    <i class="fa-solid fa-plus text-xs"></i> <span class="hidden sm:inline">Neu</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 w-full flex-grow">
+
+        <!-- Controls Section -->
+        <div class="flex flex-col gap-4 mb-8">
+            
+            <!-- Category Filter Pills -->
+            <div class="flex items-center gap-2.5 overflow-x-auto pb-2 custom-scrollbar" id="categoryFilters">
+                <button class="filter-cat px-4 py-2 chrome-button rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap transition active shadow-md" data-category="alle">
+                    <i class="fa-solid fa-border-all mr-1.5"></i> Alle (<span id="count-alle">0</span>)
+                </button>
+                <button class="filter-cat px-4 py-2 bg-zinc-900/60 border border-zinc-800/80 hover:border-zinc-600 text-zinc-400 rounded-xl text-xs font-semibold uppercase tracking-wider whitespace-nowrap transition" data-category="jacken">
+                    <i class="fa-solid fa-shirt mr-1.5"></i> Jacken (<span id="count-jacken">0</span>)
+                </button>
+                <button class="filter-cat px-4 py-2 bg-zinc-900/60 border border-zinc-800/80 hover:border-zinc-600 text-zinc-400 rounded-xl text-xs font-semibold uppercase tracking-wider whitespace-nowrap transition" data-category="oberteile">
+                    <i class="fa-solid fa-vest mr-1.5"></i> Oberteile (<span id="count-oberteile">0</span>)
+                </button>
+                <button class="filter-cat px-4 py-2 bg-zinc-900/60 border border-zinc-800/80 hover:border-zinc-600 text-zinc-400 rounded-xl text-xs font-semibold uppercase tracking-wider whitespace-nowrap transition" data-category="hosen">
+                    <i class="fa-solid fa-socks mr-1.5"></i> Hosen (<span id="count-hosen">0</span>)
+                </button>
+                <button class="filter-cat px-4 py-2 bg-zinc-900/60 border border-zinc-800/80 hover:border-zinc-600 text-zinc-400 rounded-xl text-xs font-semibold uppercase tracking-wider whitespace-nowrap transition" data-category="schuhe">
+                    <i class="fa-solid fa-shoe-prints mr-1.5"></i> Schuhe (<span id="count-schuhe">0</span>)
+                </button>
+                <button class="filter-cat px-4 py-2 bg-zinc-900/60 border border-zinc-800/80 hover:border-zinc-600 text-zinc-400 rounded-xl text-xs font-semibold uppercase tracking-wider whitespace-nowrap transition" data-category="accessoires">
+                    <i class="fa-solid fa-hat-cowboy mr-1.5"></i> Accessoires (<span id="count-accessoires">0</span>)
+                </button>
+            </div>
+
+            <!-- Brand Selector Bar & Sorting -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-zinc-950/70 p-3.5 rounded-2xl border border-zinc-800/80">
+                <div class="flex items-center gap-2 overflow-x-auto w-full sm:w-auto custom-scrollbar py-1" id="brandFilters">
+                    <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest px-2">Marke:</span>
+                </div>
+
+                <div class="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+                    <label for="sortSelect" class="text-xs text-zinc-400 font-medium"><i class="fa-solid fa-sort mr-1"></i> Sortieren:</label>
+                    <select id="sortSelect" class="bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs rounded-lg px-3 py-1.5 focus:outline-none focus:border-zinc-500">
+                        <option value="default">Standard</option>
+                        <option value="az">Name (A-Z)</option>
+                        <option value="za">Name (Z-A)</option>
+                        <option value="brand">Marke</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- KI Status Box -->
+        <div id="aiStatus" class="hidden mb-6 p-4 rounded-xl bg-gradient-to-r from-blue-900/30 via-purple-900/30 to-black border border-blue-500/30 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-wand-magic-sparkles text-blue-400 text-lg"></i>
+                <div>
+                    <p class="text-xs font-bold text-white uppercase tracking-wider" id="aiStatusTitle">KI-Bildanalyse aktiv</p>
+                    <p class="text-[11px] text-zinc-400" id="aiStatusDesc">Produkte gefiltert basierend auf hochgeladenem Foto.</p>
+                </div>
+            </div>
+            <button onclick="resetAISearch()" class="text-xs text-zinc-400 hover:text-white uppercase font-bold underline">Zurücksetzen</button>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5" id="productGrid">
+            <!-- Dynamic Items Injection -->
+        </div>
+
+    </main>
+
+    <!-- Modal: Add New Product -->
+    <div id="productModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-zinc-950 chrome-border rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-zinc-500 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h2 class="text-lg font-extrabold chrome-text uppercase tracking-wider mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-link text-white"></i> Neues Produkt hinzufügen
+            </h2>
+            <form id="addProductForm" class="flex flex-col gap-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1">Produktname</label>
+                    <input type="text" id="inputName" required placeholder="z. B. Moncler Maya Jacke Schwarz" 
+                        class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-200 focus:outline-none focus:border-white">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1">Marke</label>
+                        <input type="text" id="inputBrand" required placeholder="z. B. Moncler" 
+                            class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-200 focus:outline-none focus:border-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1">Kategorie</label>
+                        <select id="inputCategory" class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-200 focus:outline-none focus:border-white">
+                            <option value="jacken">Jacken & Westen</option>
+                            <option value="oberteile">Oberteile & Polos</option>
+                            <option value="hosen">Hosen & Sets</option>
+                            <option value="schuhe">Schuhe</option>
+                            <option value="accessoires">Accessoires</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1">Bild Dateiname oder Pfad</label>
+                    <input type="text" id="inputImage" required placeholder="1.jpg" 
+                        class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-200 focus:outline-none focus:border-white">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1">Hacoo Link</label>
+                    <input type="url" id="inputLink" required placeholder="https://c.onlyaff.app/..." 
+                        class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-200 focus:outline-none focus:border-white">
+                </div>
+                <button type="submit" class="mt-2 chrome-button font-bold py-2.5 rounded-lg transition text-sm uppercase tracking-wider shadow-lg">
+                    Produkt Speichern
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-zinc-950 chrome-border text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <i class="fa-solid fa-circle-check text-white text-xl"></i>
+        <div class="flex flex-col">
+            <span class="text-xs font-black uppercase tracking-wider text-white">Link kopiert!</span>
+            <span class="text-[11px] font-black uppercase tracking-widest text-zinc-300">CODE: LINKKINGS14 (14% OFF)</span>
+        </div>
+    </div>
+
+    <script>
+        // Vollständig korrigierte Markenzuordnungen basierend auf dem Produktnamen
+        const initialProducts = [
+            { id: 1, name: "Canada Goose Daunenjacke mit Fellkapuze", brand: "Canada Goose", category: "jacken", image: "1.jpg", link: "https://c.onlyaff.app/dTBzk6" },
+            { id: 2, name: "Nike Running Windbreaker grau", brand: "Nike", category: "jacken", image: "2.jpg", link: "https://c.onlyaff.app/dTBA37" },
+            { id: 3, name: "Ralph Lauren Brasilien Classic Fit Polo-Shirt Gelb/Grün", brand: "Ralph Lauren", category: "oberteile", image: "3.jpg", link: "https://c.onlyaff.app/dTBAjD" },
+            { id: 4, name: "Nike Air Max 95 Sneaker Neon", brand: "Nike", category: "schuhe", image: "4.jpg", link: "https://c.onlyaff.app/dTBAAU" },
+            { id: 5, name: "Parajumpers Daunenblouson dunkelblau", brand: "Parajumpers", category: "jacken", image: "5.jpg", link: "https://c.onlyaff.app/dTBARG" },
+            { id: 6, name: "Nike Brasilien Trainingsjacke / Doudoune Schwarz", brand: "Nike", category: "jacken", image: "6.jpg", link: "https://c.onlyaff.app/dTBBuP" },
+            { id: 7, name: "Stone Island Garment Dyed Hooded Down Jacket Olive Green", brand: "Stone Island", category: "jacken", image: "7.jpg", link: "https://c.onlyaff.app/dTBBHu" },
+            { id: 8, name: "C.P. Company Hybrid Daunenjacke mit Strickärmeln & Goggles", brand: "C.P. Company", category: "jacken", image: "8.jpg", link: "https://c.onlyaff.app/dTBBWW" },
+            { id: 9, name: "Canada Goose Damen Puffer Jacke Schwarz", brand: "Canada Goose", category: "jacken", image: "9.jpg", link: "https://c.onlyaff.app/dTBCi2" },
+            { id: 10, name: "Stone Island T-Shirt Schwarz mit Badge", brand: "Stone Island", category: "oberteile", image: "10.jpg", link: "https://c.onlyaff.app/dTBCUb" },
+            { id: 11, name: "Prada America's Cup Sneaker aus Lackleder", brand: "Prada", category: "schuhe", image: "11.jpg", link: "https://c.onlyaff.app/dTBLSF" },
+            { id: 12, name: "Nike Tactical Zip Windbreaker Jacket Grau", brand: "Nike", category: "jacken", image: "12.jpg", link: "https://c.onlyaff.app/dTBM6W" },
+            { id: 13, name: "Chrome Hearts Cross Sleeve Print Raglan Longsleeve Schwarz/Weiß", brand: "Chrome Hearts", category: "oberteile", image: "13.jpg", link: "https://c.onlyaff.app/dTBMsz" },
+            { id: 14, name: "Stone Island Micro Badge Zipper Hoodie Schwarz", brand: "Stone Island", category: "oberteile", image: "14.jpg", link: "https://c.onlyaff.app/dTBMDs" },
+            { id: 15, name: "C.P. Company D.D. Shell Modular Down Puffer Jacket Schwarz", brand: "C.P. Company", category: "jacken", image: "15.jpg", link: "https://c.onlyaff.app/dTBMNp" },
+            { id: 16, name: "Rimowa Aluminium iPhone Case", brand: "Rimowa", category: "accessoires", image: "16.jpg", link: "https://c.onlyaff.app/dTBN6e" },
+            { id: 18, name: "Polo Ralph Lauren Classic Pony Sweatpants Navy", brand: "Ralph Lauren", category: "hosen", image: "18.jpg", link: "https://c.onlyaff.app/dTBNmd" },
+            { id: 19, name: "Acne Studios Stockholm 1996 Longsleeve Weiß", brand: "Acne Studios", category: "oberteile", image: "19.jpg", link: "https://c.onlyaff.app/dTBNDf" },
+            { id: 20, name: "Chrome Hearts Hollywood Cross Patch Mesh Trucker Cap", brand: "Chrome Hearts", category: "accessoires", image: "20.jpg", link: "https://c.onlyaff.app/dTBO1D" },
+            { id: 21, name: "Ralph Lauren Slim-Fit Poloshirt für Jungen Weiß", brand: "Ralph Lauren", category: "oberteile", image: "21.jpg", link: "https://c.onlyaff.app/dTBOjN" },
+            { id: 22, name: "CDG PLAY Red Heart Patch Classic Longsleeve Shirt", brand: "CDG PLAY", category: "oberteile", image: "22.jpg", link: "https://c.onlyaff.app/dTBRhe" },
+            { id: 23, name: "Stone Island Junior Sweatshirt Grau", brand: "Stone Island", category: "oberteile", image: "23.jpg", link: "https://c.onlyaff.app/dTBRvM" },
+            { id: 24, name: "CDG PLAY Raglan Sleeve Contrast Top", brand: "CDG PLAY", category: "oberteile", image: "24.jpg", link: "https://c.onlyaff.app/dTBSdd" },
+            { id: 25, name: "Dior B30 Countdown Sneaker Schwarz/Weiß", brand: "Dior", category: "schuhe", image: "25.jpg", link: "https://c.onlyaff.app/dTBSuo" },
+            { id: 26, name: "Nike x Nocta Tech Fleece Zip Tracksuit Schwarz/Gelb", brand: "Nike", category: "hosen", image: "26.jpg", link: "https://c.onlyaff.app/dTBSCh" },
+            { id: 27, name: "Canada Goose Fleece Hoodie Meliertes Grau", brand: "Canada Goose", category: "oberteile", image: "27.jpg", link: "https://c.onlyaff.app/dTBTdc" },
+            { id: 28, name: "Prada America's Cup Sneaker Schwarz-Weiß", brand: "Prada", category: "schuhe", image: "28.jpg", link: "https://c.onlyaff.app/dTBToc" },
+            { id: 29, name: "Parajumpers Right Hand Masterpiece Puffer Jacket", brand: "Parajumpers", category: "jacken", image: "29.jpg", link: "https://c.onlyaff.app/dTBTAZ" },
+            { id: 30, name: "Chrome Hearts V-Neck Longsleeve Jersey Collection", brand: "Chrome Hearts", category: "oberteile", image: "30.jpg", link: "https://c.onlyaff.app/dTBU0E" },
+            { id: 31, name: "Nike Tech Fleece Full-Zip Trainingsanzug Schwarz", brand: "Nike", category: "hosen", image: "31.jpg", link: "https://c.onlyaff.app/dTBUH8" },
+            { id: 32, name: "Canada Goose Wyndham Daunenjacke Schwarz mit Pelzkragen", brand: "Canada Goose", category: "jacken", image: "32.jpg", link: "https://c.onlyaff.app/dTBXXP" },
+            { id: 33, name: "On Running Active Windbreaker Jacke & Shorts Set Schwarz", brand: "On Running", category: "jacken", image: "33.jpg", link: "https://c.onlyaff.app/dTBXZs" },
+            { id: 34, name: "Moncler Leichte Softshell Kapuzenjacke Schwarz", brand: "Moncler", category: "jacken", image: "34.jpg", link: "https://c.onlyaff.app/dTBYrK" },
+            { id: 35, name: "Nike Brasilien GORE-TEX Outdoor Windbreaker Mintgrün", brand: "Nike", category: "jacken", image: "35.jpg", link: "https://c.onlyaff.app/dTBZ1c" },
+            { id: 36, name: "Moncler Glossy Puffer Daunenjacke mit Pelzkragen Schwarz", brand: "Moncler", category: "jacken", image: "36.jpg", link: "https://c.onlyaff.app/dTBZ5t" },
+            { id: 37, name: "Moncler Gesteppte Winterjacke mit Querstreifen Weiß & Schwarz", brand: "Moncler", category: "jacken", image: "37.jpg", link: "https://c.onlyaff.app/dTBZCy" },
+            { id: 38, name: "Canada Goose Garson Black Label Lightweight Daunenweste", brand: "Canada Goose", category: "jacken", image: "38.jpg", link: "https://c.onlyaff.app/dTBZTu" },
+            { id: 39, name: "Nike Performance Half-Zip Top & Trackpants Set Mint/Schwarz", brand: "Nike", category: "oberteile", image: "39.jpg", link: "https://c.onlyaff.app/dTC0hn" },
+            { id: 40, name: "Nike x Nocta Tech Fleece Trainingsanzug Schwarz", brand: "Nike", category: "hosen", image: "40.jpg", link: "https://c.onlyaff.app/dTC0Zi" },
+            { id: 41, name: "Nike Dry-Fit Sport T-Shirt & Gym Shorts Set Collection", brand: "Nike", category: "oberteile", image: "41.jpg", link: "https://c.onlyaff.app/dWf0iO" },
+            { id: 42, name: "Nike Tech Fleece Full-Zip Trainingsanzug Creme", brand: "Nike", category: "hosen", image: "42.jpg", link: "https://c.onlyaff.app/dWf0Hb" },
+            { id: 43, name: "Nike Miler Sport T-Shirt & Shorts Set Mintgrün/Schwarz", brand: "Nike", category: "oberteile", image: "43.jpg", link: "https://c.onlyaff.app/dWf1aI" },
+            { id: 44, name: "Parajumpers Pharrell Daunenjacke für Herren Schwarz", brand: "Parajumpers", category: "jacken", image: "44.jpg", link: "https://c.onlyaff.app/dWf2LC" },
+            { id: 45, name: "Moose Knuckles Classic Scissors Rivet Waterproof Daunenweste", brand: "Moose Knuckles", category: "jacken", image: "45.jpg", link: "https://c.onlyaff.app/dWf3kZ" },
+            { id: 46, name: "Moose Knuckles Briar 3Q Daunenjacke Schwarz", brand: "Moose Knuckles", category: "jacken", image: "46.jpg", link: "https://c.onlyaff.app/dWf3J0" },
+            { id: 47, name: "Alexander McQueen Oversized Sneaker mit Graffiti-Print", brand: "Alexander McQueen", category: "schuhe", image: "47.jpg", link: "https://c.onlyaff.app/dWf43e" },
+            { id: 48, name: "Parajumpers Tactical Cargo Hose Collection", brand: "Parajumpers", category: "hosen", image: "48.jpg", link: "https://c.onlyaff.app/dWf4hd" },
+            { id: 49, name: "Christian Louboutin Black Louis Junior Spikes Leather Sneakers", brand: "Louboutin", category: "schuhe", image: "49.jpg", link: "https://c.onlyaff.app/dWf4u9" },
+            { id: 50, name: "Christian Louboutin Louis Junior Low-Top Sneaker Veloursleder", brand: "Louboutin", category: "schuhe", image: "50.jpg", link: "https://c.onlyaff.app/dWf57r" },
+            { id: 51, name: "Moncler Glossy Puffer Daunenjacke mit Pelzkragen Schwarz", brand: "Moncler", category: "jacken", image: "51.jpg", link: "https://c.onlyaff.app/dWgiyZ" },
+            { id: 52, name: "Nike Tactical Zip Windbreaker Jacke Grau", brand: "Nike", category: "jacken", image: "52.jpg", link: "https://c.onlyaff.app/dWgjjg" },
+            { id: 53, name: "Chrome Hearts Cross Sleeve Print Raglan Longsleeve Schwarz/Weiß", brand: "Chrome Hearts", category: "oberteile", image: "53.jpg", link: "https://c.onlyaff.app/dWgjBU" },
+            { id: 54, name: "Stone Island Micro Badge Zipper Hoodie Schwarz", brand: "Stone Island", category: "oberteile", image: "54.jpg", link: "https://c.onlyaff.app/dWgjFM" },
+            { id: 55, name: "C.P. Company D.D. Shell Modular Down Puffer Jacket Schwarz", brand: "C.P. Company", category: "jacken", image: "55.jpg", link: "https://c.onlyaff.app/dWgk54" },
+            { id: 56, name: "Prada America's Cup Sneaker aus Lackleder Schwarz/Weiß", brand: "Prada", category: "schuhe", image: "56.jpg", link: "https://c.onlyaff.app/dWgkcC" },
+            { id: 57, name: "Canada Goose Classic Crewneck Sweatshirt & Jogger Set", brand: "Canada Goose", category: "hosen", image: "57.jpg", link: "https://c.onlyaff.app/dWgkY0" },
+            { id: 58, name: "Essentials Fear of God Fleece Hoodie & Sweatpants Set Grau", brand: "Essentials", category: "hosen", image: "58.jpg", link: "https://c.onlyaff.app/dWglIG" },
+            { id: 59, name: "Parajumpers Gobi / Right Hand Hooded Puffer Jacket", brand: "Parajumpers", category: "jacken", image: "59.jpg", link: "https://c.onlyaff.app/dWgm5s" },
+            { id: 60, name: "Nike Colorblock Lightweight Hooded Jacket Mint/Schwarz", brand: "Nike", category: "jacken", image: "60.jpg", link: "https://c.onlyaff.app/dWgmjZ" },
+            { id: 61, name: "Nike Brasilien Longsleeve Training Jersey Schwarz", brand: "Nike", category: "oberteile", image: "61.jpg", link: "https://c.onlyaff.app/dWgA8R" },
+            { id: 62, name: "Lanvin Curb Sneaker aus Veloursleder Schwarz", brand: "Lanvin", category: "schuhe", image: "62.jpg", link: "https://c.onlyaff.app/dWgArM" },
+            { id: 63, name: "Jacquemus Strickpullover mit Logo-Schriftzug Rot & Weiß", brand: "Jacquemus", category: "oberteile", image: "63.jpg", link: "https://c.onlyaff.app/dWgB0s" },
+            { id: 64, name: "Stone Island Rollkragenpullover in Schwarz", brand: "Stone Island", category: "oberteile", image: "64.jpg", link: "https://c.onlyaff.app/dWgB5Y" },
+            { id: 65, name: "Parajumpers Masterpiece Puffer Jacket Line", brand: "Parajumpers", category: "jacken", image: "65.jpg", link: "https://c.onlyaff.app/dWgBCZ" },
+            { id: 66, name: "Moncler Glossy Puffer Daunenjacke mit Pelzkragen Schwarz", brand: "Moncler", category: "jacken", image: "66.jpg", link: "https://c.onlyaff.app/dWgBSO" },
+            { id: 67, name: "Nike Tactical Zip Windbreaker Jacke Grau", brand: "Nike", category: "jacken", image: "67.jpg", link: "https://c.onlyaff.app/dWgCcP" },
+            { id: 68, name: "Chrome Hearts Cross Sleeve Print Raglan Longsleeve Schwarz/Weiß", brand: "Chrome Hearts", category: "oberteile", image: "68.jpg", link: "https://c.onlyaff.app/dWgCmm" },
+            { id: 69, name: "Stone Island Micro Badge Zipper Hoodie Schwarz", brand: "Stone Island", category: "oberteile", image: "69.jpg", link: "https://c.onlyaff.app/dWgCLb" },
+            { id: 70, name: "C.P. Company D.D. Shell Modular Down Puffer Jacket Schwarz", brand: "C.P. Company", category: "jacken", image: "70.jpg", link: "https://c.onlyaff.app/dWgD9B" },
+            { id: 71, name: "Ralph Lauren Ledergürtel mit goldener RL-Schnalle", brand: "Ralph Lauren", category: "accessoires", image: "71.jpg", link: "https://c.onlyaff.app/dWgGJM" },
+            { id: 72, name: "Ralph Lauren Big Pony Embroidery Polo-Shirt Miami Edition", brand: "Ralph Lauren", category: "oberteile", image: "72.jpg", link: "https://c.onlyaff.app/dWgH9P" },
+            { id: 73, name: "Nike Air Jordan 1 Low Travis Scott Collection Sneaker", brand: "Nike", category: "schuhe", image: "73.jpg", link: "https://c.onlyaff.app/dWgHsM" },
+            { id: 74, name: "Chrome Hearts Leather Cross Patch Backpack Rucksack", brand: "Chrome Hearts", category: "accessoires", image: "74.jpg", link: "https://c.onlyaff.app/dWgHHL" },
+            { id: 75, name: "Ralph Lauren Big Pony Hoodie Collection mit Half-Zip", brand: "Ralph Lauren", category: "oberteile", image: "75.jpg", link: "https://c.onlyaff.app/dWgHQw" },
+            { id: 76, name: "Stone Island Sleeve Compass Patch Crewneck Knit Sweater Grau", brand: "Stone Island", category: "oberteile", image: "76.jpg", link: "https://c.onlyaff.app/dWgIXX" },
+            { id: 77, name: "Ralph Lauren Classic Sport T-Shirt & Shorts Set Pack", brand: "Ralph Lauren", category: "oberteile", image: "77.jpg", link: "https://c.onlyaff.app/dWgJSF" },
+            { id: 78, name: "Nike Tactical Zip Windbreaker Jacket Schwarz", brand: "Nike", category: "jacken", image: "78.jpg", link: "https://c.onlyaff.app/dWgK2n" },
+            { id: 79, name: "Moncler x Billionaire Boys Club Graphic Print T-Shirt Set", brand: "Moncler", category: "oberteile", image: "79.jpg", link: "https://c.onlyaff.app/dWgKw6" },
+            { id: 80, name: "Canada Goose Glossy Puffer Daunenjacke in Schwarz & Hellblau", brand: "Canada Goose", category: "jacken", image: "80.jpg", link: "https://c.onlyaff.app/dWgL01" },
+            { id: 81, name: "Parajumpers Classic Down Vest Daunenweste Schwarz & Navy", brand: "Parajumpers", category: "jacken", image: "81.jpg", link: "https://c.onlyaff.app/dWgL02" },
+            { id: 82, name: "Parajumpers Hooded Puffer Down Jacket Kapuze Schwarz & Navy", brand: "Parajumpers", category: "jacken", image: "82.jpg", link: "https://c.onlyaff.app/dWgL03" },
+            { id: 83, name: "Parajumpers Hybrid Softshell Daunenjacke mit Kapuze Schwarz", brand: "Parajumpers", category: "jacken", image: "83.jpg", link: "https://c.onlyaff.app/dWgL04" },
+            { id: 84, name: "Canada Goose Hybrid Fleece & Down Zip Hoodie Beige & Schwarz", brand: "Canada Goose", category: "jacken", image: "84.jpg", link: "https://c.onlyaff.app/dWgL05" },
+            { id: 85, name: "Canada Goose Expedition Parka mit Fellkapuze Anthrazit", brand: "Canada Goose", category: "jacken", image: "85.jpg", link: "https://c.onlyaff.app/dWgL06" },
+            { id: 86, name: "Moncler Maya Glossy Puffer Daunenjacke mit Pelzkapuze Navy", brand: "Moncler", category: "jacken", image: "86.jpg", link: "https://c.onlyaff.app/dWgL07" },
+            { id: 87, name: "Parajumpers Lightweight Down Jacket Beige, Navy & Schwarz", brand: "Parajumpers", category: "jacken", image: "87.jpg", link: "https://c.onlyaff.app/dWgL08" },
+            { id: 88, name: "Parajumpers Right Hand Hooded Jacket Schwarz & Navy", brand: "Parajumpers", category: "jacken", image: "88.jpg", link: "https://c.onlyaff.app/dWgL09" },
+            { id: 89, name: "Parajumpers Hybrid Full-Zip Sport Jacket & Trackpants Set", brand: "Parajumpers", category: "hosen", image: "89.jpg", link: "https://c.onlyaff.app/dWgL10" },
+            { id: 90, name: "Nike Hoops Elite Pro Basketball Backpack Rucksack Schwarz", brand: "Nike", category: "accessoires", image: "90.jpg", link: "https://c.onlyaff.app/dWgL11" },
+            { id: 91, name: "Nike Miler Running T-Shirt in Lila", brand: "Nike", category: "oberteile", image: "91.jpg", link: "https://c.onlyaff.app/dYryQX" },
+            { id: 92, name: "Nike Puffer Daunenweste Silber-Grau", brand: "Nike", category: "jacken", image: "92.jpg", link: "https://c.onlyaff.app/dYrAZK" },
+            { id: 93, name: "Asics GEL-1130 Sneaker Weiß/Silber", brand: "Asics", category: "schuhe", image: "93.jpg", link: "https://c.onlyaff.app/dYrD3K" },
+            { id: 94, name: "Canada Goose HyBridge Padded Panel Knit Jacket", brand: "Canada Goose", category: "jacken", image: "94.jpg", link: "https://c.onlyaff.app/dYrEOb" },
+            { id: 95, name: "Moncler Daunenjacke Montbeliard Schwarz", brand: "Moncler", category: "jacken", image: "95.jpg", link: "https://c.onlyaff.app/dYrGuc" },
+            { id: 96, name: "Chrome Hearts Zip-Up Hoodie Schwarz", brand: "Chrome Hearts", category: "oberteile", image: "96.jpg", link: "https://c.onlyaff.app/dYrIgT" },
+            { id: 97, name: "Moncler Spider Down Jacket", brand: "Moncler", category: "jacken", image: "97.jpg", link: "https://c.onlyaff.app/dYrKLF" },
+            { id: 98, name: "Nike Running Division Windbreaker Burgundy", brand: "Nike", category: "jacken", image: "98.jpg", link: "https://c.onlyaff.app/dYrNSl" },
+            { id: 99, name: "Essentials Fear of God Fleece Set", brand: "Essentials", category: "hosen", image: "99.jpg", link: "https://c.onlyaff.app/dYrPyX" },
+            { id: 100, name: "Canada Goose Wyndham Daunenjacke Schwarz", brand: "Canada Goose", category: "jacken", image: "100.jpg", link: "https://c.onlyaff.app/dYt8Ko" },
+            { id: 101, name: "Canada Goose Crofton Puffer Hoody Hellgrau", brand: "Canada Goose", category: "jacken", image: "101.jpg", link: "https://c.onlyaff.app/dYtalp" },
+            { id: 102, name: "Canada Goose Glossy Puffer Daunenjacke Schwarz", brand: "Canada Goose", category: "jacken", image: "102.jpg", link: "https://c.onlyaff.app/dYtb1o" },
+            { id: 103, name: "Ray-Ban Wayfarer Classic Sonnenbrille", brand: "Ray-Ban", category: "accessoires", image: "103.jpg", link: "https://c.onlyaff.app/dYtbr2" },
+            { id: 104, name: "Acne Studios Stockholm 1996 Longsleeve Schwarz", brand: "Acne Studios", category: "oberteile", image: "104.jpg", link: "https://c.onlyaff.app/dYtcaL" },
+            { id: 105, name: "Rick Owens Low Ramones Leather Sneaker", brand: "Rick Owens", category: "schuhe", image: "105.jpg", link: "https://c.onlyaff.app/dYtcmM" },
+            { id: 106, name: "Moncler Maya / Montbeliard Daunenjacke Schwarz", brand: "Moncler", category: "jacken", image: "106.jpg", link: "https://c.onlyaff.app/dYtdoP" },
+            { id: 107, name: "Corteiz Alcatraz Outdoor Shell Jacke Schwarz", brand: "Corteiz", category: "jacken", image: "107.jpg", link: "https://c.onlyaff.app/dYtqH0" },
+            { id: 108, name: "Bellstaff Classic Waterproof Waxed Jacket", brand: "Bellstaff", category: "jacken", image: "108.jpg", link: "https://c.onlyaff.app/dYtGN2" }
+        ];
+
+        let products = initialProducts;
+        let currentCategory = 'alle';
+        let currentBrand = 'alle';
+        let currentSort = 'default';
+        let aiFilterQuery = '';
+
+        const grid = document.getElementById('productGrid');
+        const searchInput = document.getElementById('searchInput');
+        const sortSelect = document.getElementById('sortSelect');
+
+        // FontAwesome Icons für die Kategorie-Fallbacks
+        const categoryIconMap = {
+            jacken: "fa-shirt",
+            oberteile: "fa-vest",
+            hosen: "fa-socks",
+            schuhe: "fa-shoe-prints",
+            accessoires: "fa-hat-cowboy"
+        };
+
+        function updateCounts() {
+            const categories = ['alle', 'jacken', 'oberteile', 'hosen', 'schuhe', 'accessoires'];
+            categories.forEach(cat => {
+                const count = cat === 'alle' ? products.length : products.filter(p => p.category === cat).length;
+                const el = document.getElementById(`count-${cat}`);
+                if (el) el.innerText = count;
+            });
+        }
+
+        function populateBrandFilter() {
+            const brands = ['alle', ...new Set(products.map(p => p.brand))].sort();
+            const brandContainer = document.getElementById('brandFilters');
+            brandContainer.innerHTML = `<span class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest px-2">Marke:</span>`;
+
+            brands.forEach(b => {
+                const btn = document.createElement('button');
+                const isActive = b === currentBrand;
+                btn.className = `filter-brand px-3 py-1 rounded-lg text-xs font-semibold uppercase tracking-wider whitespace-nowrap transition ${isActive ? 'chrome-button' : 'bg-zinc-900/60 text-zinc-400 hover:bg-zinc-800'}`;
+                btn.innerText = b === 'alle' ? 'Alle Marken' : b;
+                btn.onclick = () => {
+                    currentBrand = (currentBrand === b && b !== 'alle') ? 'alle' : b;
+                    populateBrandFilter();
+                    filterAndRender();
+                };
+                brandContainer.appendChild(btn);
+            });
+        }
+
+        function renderProducts(items) {
+            grid.innerHTML = '';
+            if (items.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full flex flex-col items-center justify-center py-20 text-center">
+                        <i class="fa-solid fa-sparkles text-5xl text-zinc-800 mb-4"></i>
+                        <p class="text-zinc-500 font-medium text-xs uppercase tracking-widest">Keine Produkte gefunden</p>
+                    </div>
+                `;
+                return;
+            }
+
+            items.forEach(product => {
+                const card = document.createElement('div');
+                card.className = "bg-zinc-950 border border-zinc-800/80 rounded-2xl overflow-hidden flex flex-col justify-between chrome-card-hover group relative";
+
+                const categoryIcon = categoryIconMap[product.category] || "fa-shirt";
+
+                card.innerHTML = `
+                    <div>
+                        <div class="relative h-64 bg-zinc-900/60 overflow-hidden border-b border-zinc-900 flex items-center justify-center">
+                            <img src="${product.image}" alt="" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
+                                onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');">
+                            
+                            <!-- Edler Chrome / Moncler Style Fallback Badge -->
+                            <div class="hidden w-full h-full bg-gradient-to-br from-zinc-900 via-zinc-950 to-black flex flex-col items-center justify-center p-4 text-center border-b border-zinc-800">
+                                <div class="w-16 h-16 rounded-2xl bg-zinc-900/90 border border-zinc-700/80 flex items-center justify-center mb-3 shadow-xl group-hover:border-zinc-400 transition">
+                                    <i class="fa-solid ${categoryIcon} text-2xl text-zinc-300"></i>
+                                </div>
+                                <span class="text-xs font-black text-white uppercase tracking-widest">${product.brand}</span>
+                                <span class="text-[10px] font-semibold text-zinc-500 uppercase tracking-widest mt-1">${product.category}</span>
+                            </div>
+
+                            <span class="absolute top-3 left-3 z-10 bg-black/90 backdrop-blur border border-zinc-700/80 text-[10px] font-bold px-2.5 py-1 rounded-lg text-white uppercase tracking-wider shadow-lg">
+                                ${product.brand}
+                            </span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold text-xs text-zinc-200 leading-relaxed line-clamp-2">
+                                <span class="font-bold text-white uppercase tracking-wider block mb-0.5">${product.brand}</span>
+                                ${product.name}
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="p-4 pt-0 flex flex-col gap-2">
+                        <a href="${product.link}" target="_blank" class="w-full bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-center text-xs font-bold py-2 rounded-xl transition text-zinc-200 flex items-center justify-center gap-1.5 uppercase tracking-wider">
+                            Öffnen <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                        </a>
+                        <button onclick="copyLink('${product.link}', this)" class="chrome-button w-full text-xs font-black py-2.5 rounded-xl transition flex flex-col items-center justify-center uppercase tracking-wider leading-tight shadow-md">
+                            <div class="flex items-center gap-1.5 text-xs font-extrabold">
+                                <i class="fa-regular fa-copy"></i> LINK KOPIEREN
+                            </div>
+                            <span class="text-[10px] font-black tracking-widest text-zinc-900 mt-0.5">USE CODE: LINKKINGS14 (14% OFF)</span>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function copyLink(link, btn) {
+            const formattedText = `${link} use code Linkkings14 for 14% off`;
+            navigator.clipboard.writeText(formattedText);
+            showToast();
+            
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = `<div class="flex items-center gap-1 text-xs font-black"><i class="fa-solid fa-check"></i> KOPIERT!</div>`;
+            btn.classList.replace('chrome-button', 'bg-zinc-300');
+
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.classList.replace('bg-zinc-300', 'chrome-button');
+            }, 1800);
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2800);
+        }
+
+        function filterAndRender() {
+            const query = searchInput.value.toLowerCase().trim();
+
+            let filtered = products.filter(p => {
+                const matchesCat = currentCategory === 'alle' || p.category === currentCategory;
+                const matchesBrand = currentBrand === 'alle' || p.brand === currentBrand;
+                const matchesSearch = p.name.toLowerCase().includes(query) || p.brand.toLowerCase().includes(query);
+                const matchesAI = aiFilterQuery === '' || p.name.toLowerCase().includes(aiFilterQuery) || p.brand.toLowerCase().includes(aiFilterQuery) || p.category.toLowerCase().includes(aiFilterQuery);
+                return matchesCat && matchesBrand && matchesSearch && matchesAI;
+            });
+
+            if (currentSort === 'az') {
+                filtered.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (currentSort === 'za') {
+                filtered.sort((a, b) => b.name.localeCompare(a.name));
+            } else if (currentSort === 'brand') {
+                filtered.sort((a, b) => a.brand.localeCompare(b.brand));
+            }
+
+            renderProducts(filtered);
+            updateCounts();
+        }
+
+        function triggerImageUpload() {
+            document.getElementById('aiImageInput').click();
+        }
+
+        function handleAIImageScan(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const filename = file.name.toLowerCase();
+            let detected = '';
+
+            if (filename.includes('nike') || filename.includes('miler') || filename.includes('tech')) detected = 'nike';
+            else if (filename.includes('moncler')) detected = 'moncler';
+            else if (filename.includes('goose') || filename.includes('canada')) detected = 'canada goose';
+            else if (filename.includes('stone')) detected = 'stone island';
+            else if (filename.includes('schuh') || filename.includes('sneaker') || filename.includes('asics') || filename.includes('prada')) detected = 'schuhe';
+            else detected = 'jacken';
+
+            aiFilterQuery = detected;
+            document.getElementById('aiStatus').classList.remove('hidden');
+            document.getElementById('aiStatusDesc').innerText = `KI hat "${file.name}" analysiert. Gefiltert nach: "${detected.toUpperCase()}"`;
+            filterAndRender();
+        }
+
+        function resetAISearch() {
+            aiFilterQuery = '';
+            document.getElementById('aiStatus').classList.add('hidden');
+            document.getElementById('aiImageInput').value = '';
+            filterAndRender();
+        }
+
+        document.querySelectorAll('.filter-cat').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-cat').forEach(b => {
+                    b.className = 'filter-cat px-4 py-2 bg-zinc-900/60 border border-zinc-800/80 hover:border-zinc-600 text-zinc-400 rounded-xl text-xs font-semibold uppercase tracking-wider whitespace-nowrap transition';
+                });
+
+                const target = e.currentTarget;
+                target.className = 'filter-cat px-4 py-2 chrome-button rounded-xl text-xs font-bold uppercase tracking-wider whitespace-nowrap transition active shadow-md';
+                currentCategory = target.dataset.category;
+                filterAndRender();
+            });
+        });
+
+        searchInput.addEventListener('input', filterAndRender);
+        sortSelect.addEventListener('change', (e) => {
+            currentSort = e.target.value;
+            filterAndRender();
+        });
+
+        function openModal() { document.getElementById('productModal').classList.remove('hidden'); }
+        function closeModal() { document.getElementById('productModal').classList.add('hidden'); }
+
+        document.getElementById('addProductForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newProd = {
+                id: Date.now(),
+                name: document.getElementById('inputName').value,
+                brand: document.getElementById('inputBrand').value,
+                category: document.getElementById('inputCategory').value,
+                image: document.getElementById('inputImage').value,
+                link: document.getElementById('inputLink').value
+            };
+            products.unshift(newProd);
+            populateBrandFilter();
+            filterAndRender();
+            closeModal();
+            showToast();
+            e.target.reset();
+        });
+
+        populateBrandFilter();
+        filterAndRender();
+    </script>
+</body>
+</html>
